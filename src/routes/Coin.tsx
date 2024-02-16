@@ -1,4 +1,10 @@
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useParams,
+  useOutletContext,
+} from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoin, fetchPrice } from "../api";
 import { Helmet } from "react-helmet";
@@ -15,6 +21,10 @@ type IRouteState = {
 function Coin() {
   const params = useParams<ICoinParams>();
   const coinId = params.coinId;
+
+  const { isDark } = useOutletContext<{
+    isDark: boolean;
+  }>();
 
   const { isLoading: isCoinLoading, data: coin } = useQuery<ICoinDetail>({
     queryKey: ["info", coinId],
@@ -38,7 +48,7 @@ function Coin() {
         <title>{state?.name ?? "Loading..."}</title>
       </Helmet>
       <div>
-        <header className="mb-3">
+        <header className="my-3">
           <Link to="/">&larr; Back</Link>
           <h1 className="text-4xl text-center font-bold">
             {state?.name ?? coin?.name ?? "-"}
@@ -66,19 +76,25 @@ function Coin() {
             </div>
             <hr className="my-5" />
             <div className="flex flex-auto w-full space-x-3">
-              <Link to="chart" className="hover:underline w-1/2 text-center">
+              <Link
+                to="chart"
+                className="coin-button hover:underline w-1/2 text-center"
+              >
                 <div
-                  className={`coin-tab px-5 py-2 rounded-lg ${
-                    isChart ? "active" : ""
+                  className={`px-5 py-2 rounded-lg ${
+                    isChart ? "underline font-bold" : ""
                   }`}
                 >
                   Chart
                 </div>
               </Link>
-              <Link to="price" className="hover:underline w-1/2 text-center">
+              <Link
+                to="price"
+                className="coin-button hover:underline w-1/2 text-center"
+              >
                 <div
-                  className={`coin-tab px-5 py-2 rounded-lg ${
-                    isPrice ? "active" : ""
+                  className={`px-5 py-2 rounded-lg ${
+                    isPrice ? "underline font-bold" : ""
                   }`}
                 >
                   Price
@@ -88,6 +104,8 @@ function Coin() {
             <Outlet
               context={{
                 coinId,
+                isDark,
+                price,
               }}
             />
           </>

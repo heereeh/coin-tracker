@@ -23,13 +23,16 @@ export default function Chart() {
         <>
           <div>
             <ReactApexChart
-              type="line"
               series={[
                 {
-                  name: "price",
-                  data: histories?.map((price) => Number(price.close)) ?? [],
+                  data:
+                    histories?.map((price) => ({
+                      x: new Date(price.time_close * 1000).toISOString(),
+                      y: [price.open, price.low, price.high, price.close],
+                    })) ?? [],
                 },
               ]}
+              type="candlestick"
               options={{
                 theme: {
                   mode: isDark ? "dark" : "light",
@@ -66,19 +69,6 @@ export default function Chart() {
                   categories: histories?.map((price) =>
                     new Date(price.time_close * 1000).toISOString()
                   ),
-                },
-                fill: {
-                  type: "gradient",
-                  gradient: {
-                    gradientToColors: ["indigo"],
-                    stops: [0, 100],
-                  },
-                },
-                colors: ["blue"],
-                tooltip: {
-                  y: {
-                    formatter: (value) => `$${value.toFixed(0)}`,
-                  },
                 },
               }}
             />

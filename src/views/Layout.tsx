@@ -6,7 +6,6 @@ function Layout() {
   const toggleIsDark = () => setDark((prev) => !prev);
 
   useEffect(() => {
-    console.log(localStorage);
     if (localStorage.getItem("theme") === "dark") {
       setDark(true);
     } else {
@@ -27,7 +26,7 @@ function Layout() {
 
   return (
     <>
-      <div className="pt-10 bg-slate-100 min-h-lvh text-slate-800 dark:bg-slate-800 dark:text-white">
+      <div className="pt-10 px-3 bg-slate-100 min-h-lvh text-slate-800 dark:bg-slate-800 dark:text-white">
         <div className="max-w-[600px] m-auto">
           <button
             title="Click to change mode"
@@ -49,7 +48,9 @@ function Layout() {
             <div>{isDark ? "Dark" : "Light"}</div>
           </button>
         </div>
-        <Outlet context={{ isDark }} />
+        <div className="max-w-[600px] m-auto">
+          <Outlet context={{ isDark }} />
+        </div>
       </div>
     </>
   );

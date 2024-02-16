@@ -5,31 +5,36 @@ import Coin from "./routes/Coin";
 import Price from "./routes/Price";
 import Chart from "./routes/Chart";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: ":coinId",
+          element: <Coin />,
+          children: [
+            {
+              path: "price",
+              element: <Price />,
+            },
+            {
+              path: "chart",
+              element: <Chart />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
   {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "",
-        element: <Home />,
-      },
-      {
-        path: ":coinId",
-        element: <Coin />,
-        children: [
-          {
-            path: "price",
-            element: <Price />,
-          },
-          {
-            path: "chart",
-            element: <Chart />,
-          },
-        ],
-      },
-    ],
-  },
-]);
+    basename: "/coin-tracker",
+  }
+);
 
 export default router;
