@@ -45,7 +45,7 @@ function Coin() {
   return (
     <>
       <Helmet>
-        <title>{state?.name ?? "Loading..."}</title>
+        <title>{state?.name}</title>
       </Helmet>
       <div>
         <header className="my-3">
